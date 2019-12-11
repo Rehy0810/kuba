@@ -21,7 +21,8 @@ database:
 
 services:
 	- App\Model\UserManager
+	- App\Model\RoutineManager
+	- App\Model\DayManager
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
-	- App\Forms\SignUpFormFactory
 	router: App\Router\RouterFactory::createRouter

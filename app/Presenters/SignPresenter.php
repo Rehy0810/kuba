@@ -16,14 +16,10 @@ final class SignPresenter extends BasePresenter
 	/** @var Forms\SignInFormFactory */
 	private $signInFactory;
 
-	/** @var Forms\SignUpFormFactory */
-	private $signUpFactory;
 
-
-	public function __construct(Forms\SignInFormFactory $signInFactory, Forms\SignUpFormFactory $signUpFactory)
+	public function __construct(Forms\SignInFormFactory $signInFactory)
 	{
 		$this->signInFactory = $signInFactory;
-		$this->signUpFactory = $signUpFactory;
 	}
 
 
