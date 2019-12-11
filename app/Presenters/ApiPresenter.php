@@ -50,6 +50,10 @@ final class ApiPresenter extends BasePresenter
 			$time += $day->routine->delay;
 		} while ($time <= $day->routine->end);
 
-		$this->sendResponse( new Nette\Application\Responses\JsonResponse( ["enable"=>$enable, "spin_secs"=>$day->routine->spin_secs, "run_at"=> [$times]], "application/json;charset=utf-8" ) );
+		$this->sendResponse( new Nette\Application\Responses\JsonResponse( [
+			"enable"=> $enable,
+			"spin_secs"=> $day->routine->spin_secs,
+			"run_at"=> $times
+		], "application/json;charset=utf-8" ) );
 	}
 }
