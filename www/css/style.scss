@@ -1,0 +1,39 @@
+// FONTS
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Ubuntu&display=swap');
+
+// VARIABLES
+$main-font: 'Ubuntu', 'Open Sans', sans-serif;
+$bg-color: #300a24;
+$green-color: #6dd734;
+$border-color: #4c1740;
+$select-color: #f8f8f8;
+
+/*
+ *
+ * Components
+ *
+ */
+
+// FUNCTIONS
+@import "sass/functions.scss";
+
+// MIXINS
+@import "sass/mixin.scss";
+
+// DEFAULT STYLES
+@import "sass/default.scss";
+
+// https://fontawesome.com/v5.11.2/icons?d=gallery
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css");
+
+/*
+ *
+ * Main styles
+ *
+ */
+
+// MAIN STYLE
+@import "sass/main.scss";
+
+// FLASH MESSAGES
+@import "sass/flash.scss";

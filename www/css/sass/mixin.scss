@@ -1,0 +1,74 @@
+// MIXINS
+
+@mixin animation($string) {
+    -webkit-transition: $string;
+    -moz-transition: $string;
+    -ms-transition: $string;
+    -o-transition: $string;
+    transition: $string;
+}
+
+@mixin scaleX($scale) {
+    -webkit-transform: scaleX($scale);
+    transform: scaleX($scale);
+}
+
+@mixin box-shadow($string) {
+    -moz-box-shadow: $string;
+    -webkit-box-shadow: $string;
+    box-shadow: $string;
+}
+
+@mixin text-shadow($string) {
+    text-shadow: $string;
+}
+
+@mixin linear-gradient($start ,$end, $sperc: 0%, $eperc: 100%, $from: top, $to: bottom) {
+    background: $start; /* Old browsers */
+    background: -moz-linear-gradient($from, $start $sperc, $end $eperc); /* FF3.6-15 */
+    background: -webkit-linear-gradient($from, $start $sperc, $end $eperc); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to $to, $start $sperc, $end $eperc); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#{$start}, endColorstr=#{$end},GradientType=0 ); /* IE6-9 */
+}
+
+// BREAKPOINTS
+$breakpoint-xs: 0;
+$breakpoint-sm: 575px;
+$breakpoint-md: 767px;
+$breakpoint-lg: 991px;
+$breakpoint-xl: 1199px;
+
+// Extra Small devices
+@mixin xs {
+    @media (max-width: #{$breakpoint-sm}) {
+        @content;
+    }
+}
+ 
+ // Small devices
+@mixin sm {
+    @media (max-width: #{$breakpoint-md}) {
+        @content;
+    }
+}
+ 
+ // Medium devices
+@mixin md {
+    @media (max-width: #{$breakpoint-lg}) {
+        @content;
+    }
+}
+ 
+ // Large devices
+ @mixin lg {
+    @media (max-width: #{$breakpoint-xl}) {
+        @content;
+    }
+}
+
+// Extra large devices
+@mixin lg {
+    @media (max-width: #{$breakpoint-xl}) {
+        @content;
+    }
+}

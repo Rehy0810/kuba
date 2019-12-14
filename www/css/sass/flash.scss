@@ -1,0 +1,14 @@
+.flash {
+	z-index: 100;
+	position: fixed;
+	display: block;
+	left: 5px;
+	right: 5px;
+	top: 50%;
+	transform: translateY(-50%);
+    padding: 20px;
+    
+    .close {
+        bottom: 0;
+    }
+}

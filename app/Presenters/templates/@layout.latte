@@ -19,11 +19,16 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
-	{include header.latte}
-	{include content}
-	{include footer.latte}
-
+		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
+	
+	<div id="wrapper">
+		<div id="icon">
+		<a href="#"><img src="https://icon-library.net/images/dog-food-icon/dog-food-icon-18.jpg"><p>KuboFeeder</p></a>
+		</div>
+		<div id="content">
+			{include content}
+		</div>
+	</div>
 	{block scripts}
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
