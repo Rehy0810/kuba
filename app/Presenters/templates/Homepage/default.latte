@@ -4,10 +4,28 @@
     <a href="#" id="exit" class="window-btn"><i class="fas fa-times"></i></a>
     <a href="#" id="minimize" class="window-btn"><i class="far fa-window-minimize"></i></a>
     <a href="#" id="fullscreen" class="window-btn"><i class="far fa-square"></i></a>
-    <h1 n:block="title">KuboFeeder</h1>
+    <h1 n:block="title">Nastavení podávače</h1>
 </div>
 <div id="inner">
-    Tady bude
+    <div id="inner_inner">
+        <h3>Nastavení rutiny pro jednotlivé dny</h3>
+        <div id="calendar">
+            <div n:foreach="$days as $day" class="day">
+                <span {if $day->day_id == $today->day_id}style="color:#fff;"{/if}>{$day->name}</span>
+                <div class="routine-div">
+                <select name="routine" id="routine">
+                    <option n:foreach="$routines as $routine" value="{$routine->name}" {if $day->routine_id == $routine->routine_id}selected{/if}>{$routine->name}</option>
+                </select>
+                </div>
+                <div class="routine-info">
+                    <p><b>Začátek:</b><br>{$day->ref('routine', 'routine_id')->start|mth}</p>
+                    <p><b>Konec:</b><br>{$day->ref('routine', 'routine_id')->end|mth}</p>
+                    <p><b>Opakování:</b><br>{$day->ref('routine', 'routine_id')->delay} minut</p>
+                    <p><b>Otáčení:</b><br>{$day->ref('routine', 'routine_id')->spin_secs} sekund</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {/block}

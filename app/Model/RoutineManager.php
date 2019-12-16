@@ -47,6 +47,10 @@ final class RoutineManager
 		return $this->database->table(self::TABLE_NAME)->where('name LIKE %?%',$id);
 	}
 
+	public function getRoutineForDay(int $day) {
+		return $this->database->table('day')->get($id)->ref('routine','routine_id');
+	}
+
 	public function deleteRoutine(int $id) {
 		return $this->database->table(self::TABLE_NAME)->get($id)->delete();
 	}

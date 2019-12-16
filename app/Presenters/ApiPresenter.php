@@ -5,21 +5,10 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use Nette;
-use App;
-use Tracy\Debugger;
 
 
 final class ApiPresenter extends BasePresenter
 {
-
-	/** @var App\Model\UserManager @inject */
-	public $userManager;
-
-	/** @var App\Model\DayManager @inject */
-	public $dayManager;
-
-	/** @var App\Model\RoutineManager @inject */
-	public $routineManager;
 
 	public function actionDefault()
 	{

@@ -1,100 +1,114 @@
 var position = [0,0];
 var resize = [0,0];
-var isResize = [false, false];
+var isResize = [false, false, false];
+var isMove = false;
 
 $(function(){
 
-    $("#heading").mousedown(function (e) {
-        if ($(this).parents("#content").hasClass("fullscreen")) {
-            return;
-        }
-        position = [e.pageX, e.pageY];
-        e.preventDefault();
-        $(this).addClass("grabbing");
-    }).mousemove(moveWindow).mouseup(remGrab).mouseleave(remGrab);
+    $("#wrapper").mousedown(function (e) {
+        let coff = [$("#content").offset().left, $("#content").offset().left + $("#content").width(), $("#content").offset().top, $("#content").offset().top + $("#content").height()];
+        if ((e.pageX > coff[0] - 5 && e.pageX < coff[0] + 5) || (e.pageX > coff[1] - 5 && e.pageX < coff[1] + 5)) {
+            resize = [e.pageX, e.pageY];
+            isResize = [true, false, (e.pageX > coff[0] - 5 && e.pageX < coff[0] + 5)];
+        } // resize X
+        
+        if ((e.pageY > coff[2] - 5 && e.pageY < coff[2] + 5) || (e.pageY < coff[3] + 5 && e.pageY > coff[3] - 5)) {
+            resize = [e.pageX, e.pageY];
+            isResize = [false, true, (e.pageY > coff[2] - 5 && e.pageY < coff[2] + 5)];
+        } // resize Y
 
-    $("#content").mousedown(function (e) {
-        if ($(this).hasClass("fullscreen")) {
+        if ($("#heading").is(e.target) && !isResize[1]) {
+            isMove = true;
+            $("#wrapper *").css("cursor","grabbing");
+            position = [e.pageX, e.pageY];
+        } // move
+    }).mousemove(function (e) {
+        if ($("#content").hasClass("fullscreen")) {
             return;
+        } // return if is in fullscreen
+
+        let coff = [$("#content").offset().left, $("#content").offset().left + $("#content").width(), $("#content").offset().top, $("#content").offset().top + $("#content").height()];
+        
+
+        if (e.buttons == 0) {
+            if((e.pageX > coff[0] - 5 && e.pageX < coff[0] + 5) || (e.pageX > coff[1] - 5 && e.pageX < coff[1] + 5)) {
+                $("#wrapper *").css("cursor","w-resize");
+            } else if((e.pageY > coff[2] - 5 && e.pageY < coff[2] + 5) || (e.pageY < coff[3] + 5 && e.pageY > coff[3] - 5)) {
+                $("#wrapper *").css("cursor", "n-resize");
+            } else if (!isMove && !isResize[0] && !isResize[1]) {
+                $("#wrapper *").css("cursor", "");
+            } // set cursors 
+            return;
+        } // return if nothing pressed bruuh
+
+        if (isMove && !isResize[1]) {
+            e.preventDefault();
+            let new_pos = [e.pageX, e.pageY];
+            $("#content").offset({
+                left: $("#content").offset().left + (new_pos[0]-position[0]),
+                top: $("#content").offset().top + (new_pos[1]-position[1])
+            });
+            position = new_pos;
+            return;
+        } // Posun okna
+
+        if (isResize[0]) {
+            e.preventDefault(); 
+            let offset = [$("#content").offset().left, $("#content").offset().top];
+            let new_res = [e.pageX, e.pageY];
+            let width = $("#content").width();
+            let new_width = [width - (new_res[0] - resize[0]), width + (new_res[0] - resize[0])];
+            
+            if (isResize[2] && new_width[0] > 300) { // resize zleva
+                $("#content").width(width - (new_res[0] - resize[0]));
+                $("#content").offset({left: offset[0] + (new_res[0] - resize[0])});
+            } else if (new_width[1] > 300) { // resize zprava
+                $("#content").width(width + (new_res[0] - resize[0]));
+                $("#content").offset({left: offset[0]});
+            }
+            resize = new_res;
+        } else if (isResize[1]) {
+            e.preventDefault(); 
+            let offset = [$("#content").offset().left, $("#content").offset().top];
+            let new_res = [e.pageX, e.pageY];
+            let height = $("#content").height();
+            let new_height = [height - (new_res[1] - resize[1]), height + (new_res[1] - resize[1])];
+
+            if (isResize[2] && new_height[0] > 300) { // resize zhora
+                $("#content").height(height - (new_res[1] - resize[1]));
+                $("#content").offset({top: offset[1] + (new_res[1] - resize[1])});
+            } else if (new_height[1] > 300) { // resize zdola
+                $("#content").height(height + (new_res[1] - resize[1]));
+                $("#content").offset({top: offset[1]});
+            }
+            resize = new_res;
         }
-        resize = [e.offsetX,e.offsetY];
-        e.preventDefault();
     }).mouseup(function (e) {
-        e.preventDefault();
-        isResize = [false, false];
-    }).mouseleave(function(e) {e.preventDefault();}).mousemove(resizeWindow);
+        isMove = false;
+        isResize = [false, false, false];
+        $("#heading").css("cursor","");
+    });
 
-    $("#fullscreen").click(function () {
+    $("#fullscreen").click(function () { // Fullscreen handler
         $(this).parents("#content").toggleClass("fullscreen");
     });
 
-    $("#exit").click(toggleWindow);
+    $("#exit").click(toggleWindow); // Křížek handler
 
-    $("#icon a").click(function(e){
+    $("#minimize").click(function(){alert("ALE NEEE!!!")}); // Křížek handler
+
+    $("#icon a").click(function(e){ // Otevření okna
         e.preventDefault();
         $(this).addClass("oneclick");
     });
     $("#icon a").dblclick(openWindow);
 
-    $('#wrapper').click(function(e){
+    $('#wrapper').click(function(e){ // Simaluce ikon na ploše
         if (!$('#icon a img').is(e.target)) {
             $("#icon a").removeClass("oneclick");
         }
      });
 });
-
-function remGrab(e) {
-    e.preventDefault();
-    $(this).removeClass("grabbing");
-}
-
-function moveWindow(e) {
-    e.preventDefault();
-    if (e.buttons == 0 || $(this).parents("#content").hasClass("fullscreen")) {
-        return;
-    }
-    let new_pos = [e.pageX, e.pageY];
-    $(this).parent().offset({
-        left: $(this).parent().offset().left + (new_pos[0]-position[0]),
-        top: $(this).parent().offset().top + (new_pos[1]-position[1])
-    });
-    position = new_pos;
-}
-
-function resizeWindow(e) {
-    e.preventDefault();
-    if ($(this).hasClass("fullscreen")) {
-        $(this).css('cursor', 'default');
-        return;
-    }
-    let new_pos = [e.offsetX, e.offsetY];
-    if (e.offsetX < 5 || e.offsetX > ($(this).width() - 5) || isResize[0]) {
-        if ($(this).width() < 200) {
-            $(this).width(200);
-        }
-        $(this).css('cursor', 'w-resize');
-        if (e.buttons > 0) {
-            isResize[0] = true;
-            $(this).width($(this).width() + (new_pos[0] - resize[0]));
-        }
-    } else if (e.offsetY > ($(this).height() - 35) || isResize[1]) {
-        if ($(this).height() < 150) {
-            $(this).height(150);
-        }
-        $(this).css('cursor', 's-resize');
-        if (e.buttons > 0) {
-            isResize[1] = true;
-            $(this).height($(this).height() + (new_pos[1] - resize[1]))
-        }
-    } else {
-        if (e.buttons == 0) {
-            isResize = [false, false];
-            $(this).css('cursor', 'default');
-        }
-    }
-    
-    resize = new_pos;
-}
 
 function toggleWindow(e) {
     e.preventDefault();
