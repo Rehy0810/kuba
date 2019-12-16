@@ -95,6 +95,8 @@ body {
   width: 80vw;
   height: 600px;
   max-height: 100vh;
+  border-radius: 5px;
+  background: #300a24;
 }
 #wrapper #content.fullscreen {
   width: 100% !important;
@@ -171,10 +173,6 @@ body {
   color: #9c8f8f;
   margin: 0;
   padding: 5px;
-  border-radius: 5px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  background: #300a24;
 }
 #wrapper #content #inner #inner_inner {
   padding: 25px;

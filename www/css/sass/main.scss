@@ -60,6 +60,9 @@ body {
         height: 600px;
         max-height: 100vh;
 
+        border-radius: 5px;
+        background: $bg-color;
+
         &.fullscreen {
             width: 100%!important;
             height: 100%!important;
@@ -136,10 +139,6 @@ body {
             color: $text-color;
             margin: 0;
             padding: 5px;
-            border-radius: 5px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            background: $bg-color;
 
             #inner_inner {
                 padding: 25px;
